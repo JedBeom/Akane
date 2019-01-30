@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/McKael/madon"
@@ -23,6 +24,10 @@ func Run() {
 
 	for {
 		event := <-events
+
+		if event.Error != nil {
+			log.Println("Event error:", err)
+		}
 
 		// Catch only notifications
 		if event.Event == "notification" {
