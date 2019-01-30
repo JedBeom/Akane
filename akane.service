@@ -1,11 +1,11 @@
 [Service]
 User=pi
 Group=pi
-ExecStart=/usr/bin/sudo /home/pi/bots/akane
+ExecStart=/home/pi/bots/Akane/Akane
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=AKANE
-WorkingDirectory=/home/pi/bots/akane
+WorkingDirectory=/home/pi/bots/Akane
 
 Restart=always
 KillMode=process
