@@ -1,0 +1,14 @@
+[Service]
+User=pi
+Group=pi
+ExecStart=/usr/bin/sudo /home/pi/bots/akane
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=AKANE
+WorkingDirectory=/home/pi/bots/akane
+
+Restart=always
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
