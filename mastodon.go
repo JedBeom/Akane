@@ -59,7 +59,7 @@ func toot(content, cw string) (st *madon.Status, err error) {
 	return
 }
 
-func reply(noti *madon.Notification, content, image string) (st *madon.Status, err error) {
+func reply(noti *madon.Notification, content string) (st *madon.Status, err error) {
 
 	current, err := mc.GetCurrentAccount()
 	if err != nil {
@@ -93,10 +93,6 @@ func reply(noti *madon.Notification, content, image string) (st *madon.Status, e
 		Text:       content,
 		InReplyTo:  noti.Status.ID,
 		Visibility: visibility,
-	}
-
-	if image != "" {
-		status.MediaIDs = []int64{66693}
 	}
 
 	st, err = mc.PostStatus(status)

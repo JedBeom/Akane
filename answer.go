@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+	"unicode/utf8"
 
 	"github.com/McKael/madon"
 )
@@ -26,11 +27,14 @@ var (
 		"뭐여?", "와 그러노?", "왜 그려?",
 	}
 
-	/*
-		yesOrNo = []string{
-			"응.", "ㅇㅇ", "아니.", "ㄴㄴ", "글쎼.", "등신이가",
-		}
-	*/
+	yesOrNo = []string{
+		"응", "ㅇㅇ", "아니", "ㄴㄴ", "글쎄", "등신이가",
+	}
+
+	rate = []string{
+		"괘안은데?", "이상하다", "별로인걸", "등신이가", "치아뿌라 그거", "참말로 모르겠고만~",
+		"그런 건 잘 모르겠다는 걸~", "글켔다", "알긋다", "등신 아이가",
+	}
 )
 
 func akane(n *madon.Notification, content string) {
@@ -38,38 +42,45 @@ func akane(n *madon.Notification, content string) {
 
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	if strings.Contains(content, "아카네") {
+	// 아카네짱!
+	if strings.Contains(content, "아카네") && utf8.RuneCountInString(content) < 6 && !strings.HasSuffix(content, "?") {
 
 		number := r.Intn(len(why))
-		_, err = reply(n, why[number], "")
+		_, err = reply(n, why[number])
 
+		// :seyana: or :akane:
 	} else if strings.Contains(content, ":seyana:") || strings.Contains(content, ":akane:") {
 		number := r.Intn(len(seyana))
-		_, err = reply(n, seyana[number], "")
+		_, err = reply(n, seyana[number])
 
-		/*
-			} else if strings.Contains(content, "어떻게") || strings.HasSuffix(content, "?") {
-				_, err = reply(n, "참말로 모르겠고만~", "1")
-		*/
+		// 너 ~~~~지?
+	} else if strings.Contains(content, "너") && strings.HasSuffix(content, "지?") {
+		number := r.Intn(len(yesOrNo))
+		_, err = reply(n, yesOrNo[number])
 
-	} else if strings.Contains(content, "가챠") || strings.Contains(content, "가샤") {
-		_, err = reply(n, ":thinking_face:", "2")
-
-	} else if strings.Contains(content, "할 거") || strings.Contains(content, "해 보") || strings.Contains(content, "생각") {
-		number := r.Intn(len(seyana))
-		_, err = reply(n, seyana[number], "")
-
-	} else if strings.HasSuffix(content, "!") {
-		number := r.Intn(len(randomAnswers))
-		_, err = reply(n, randomAnswers[number]+"!", "")
+		// 할 거야
+		// 해 보려고
+		// 좋은 생각이
+	} else if strings.Contains(content, "할") || strings.Contains(content, "해") || strings.Contains(content, "생각") || strings.Contains(content, "어때") {
+		number := r.Intn(len(rate))
+		_, err = reply(n, rate[number])
 
 	} else {
 
 		number := r.Intn(len(randomAnswers))
 		if yes := r.Intn(100); yes%3 == 0 {
-			_, err = reply(n, randomAnswers[number], "")
+
+			answer := randomAnswers[number]
+
+			// ~~~!
+			if strings.HasSuffix(content, "!") {
+				answer += "!"
+			}
+
+			_, err = reply(n, answer)
+
 		} else {
-			_, err = reply(n, "응.", "")
+			_, err = reply(n, "응")
 		}
 
 	}
