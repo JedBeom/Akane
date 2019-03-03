@@ -49,8 +49,6 @@ func Run() {
 					log.Println("Follow back:", err)
 				}
 
-			} else {
-				fmt.Println(noti.Type)
 			}
 		}
 
