@@ -29,7 +29,7 @@ func Run() {
 			log.Println("Event error:", err)
 		}
 
-		// Catch only notifications
+		// Catch notifications
 		if event.Event == "notification" {
 			noti := event.Data.(madon.Notification)
 
@@ -39,14 +39,21 @@ func Run() {
 			}
 
 			// React only mention
-			if noti.Type != "mention" {
-				continue
+			if noti.Type == "mention" {
+				content := contentExtraction(noti.Status.Content)
+				go akane(&noti, content)
+			} else if noti.Type == "follow" {
+
+				_, err := mc.FollowRemoteAccount(noti.Account.Acct)
+				if err != nil {
+					log.Println("Follow back:", err)
+				}
+
+			} else {
+				fmt.Println(noti.Type)
 			}
-
-			content := contentExtraction(noti.Status.Content)
-			go akane(&noti, content)
-
 		}
+
 	}
 
 }

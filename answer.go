@@ -65,6 +65,12 @@ func akane(n *madon.Notification, content string) {
 		number := r.Intn(len(rate))
 		_, err = reply(n, rate[number])
 
+	} else if content == "unfollow" {
+		_, err := mc.UnfollowAccount(n.Account.ID)
+		if err != nil {
+			_, err = reply(n, "Sorry, I can't unfollow you. This problem was reported to my owner. If you want to make me unfollow right now, please mention to @bombwhale@planet.moe")
+			log.Println("Unfollowing:", err)
+		}
 	} else {
 
 		number := r.Intn(len(randomAnswers))
