@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	go restarter()
+	go keepAlive()
 	go Run()
 
 	c := make(chan os.Signal, 1)

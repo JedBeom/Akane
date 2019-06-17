@@ -42,13 +42,6 @@ func Run() {
 			if noti.Type == "mention" {
 				content := contentExtraction(noti.Status.Content)
 				go akane(&noti, content)
-			} else if noti.Type == "follow" {
-
-				_, err := mc.FollowRemoteAccount(noti.Account.Acct)
-				if err != nil {
-					log.Println("Follow back:", err)
-				}
-
 			}
 		}
 
@@ -57,10 +50,10 @@ func Run() {
 }
 
 // Restart streamer if session closed
-func restarter() {
+func keepAlive() {
 
 	for {
-		fmt.Println("Restarter Loop started")
+		fmt.Println("KeepAlive Loop started")
 		_, ok := <-doneChan
 		if !ok {
 			fmt.Println("Restarting...")
@@ -71,7 +64,6 @@ func restarter() {
 			err := mc.StreamListener("user", "", events, stopChan, doneChan)
 			if err != nil {
 				fmt.Println(err)
-				return
 			}
 		}
 
