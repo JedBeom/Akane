@@ -63,7 +63,7 @@ func keepAlive() {
 
 			err := mc.StreamListener("user", "", events, stopChan, doneChan)
 			if err != nil {
-				fmt.Println(err)
+				panic(err)
 			}
 		}
 
