@@ -35,6 +35,7 @@ var (
 		"괘안은데?", "이상하다", "별로인걸", "등신이가", "치아뿌라 그거", "참말로 모르겠고만~",
 		"그런 건 잘 모르겠다는 걸~", "글켔다", "알긋다", "등신 아이가",
 	}
+
 )
 
 func akane(n *madon.Notification, content string) {
@@ -43,7 +44,27 @@ func akane(n *madon.Notification, content string) {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// 아카네짱!
-	if strings.Contains(content, "아카네") && utf8.RuneCountInString(content) < 6 && !strings.HasSuffix(content, "?") {
+
+	if strings.Contains(content, "민트") {
+
+		if strings.Contains(content, "먹자") || strings.Contains(content, "아이스크림") || strings.Contains(content, "먹을") {
+			number := r.Intn(2)
+			answer := ""
+			switch number {
+			case 0:
+				answer = "다른 것은?"
+			case 1:
+				answer = n.Account.DisplayName + "...?"
+			}
+
+			_, err = reply(n, answer)
+		} else {
+			answer := []string{"민트라니 정신 나갔나", "그렇구나"}
+			number := r.Intn(len(answer))
+			_, err = reply(n, answer[number])
+		}
+
+	} else if strings.Contains(content, "아카네") && utf8.RuneCountInString(content) < 6 && !strings.HasSuffix(content, "?") {
 
 		number := r.Intn(len(why))
 		_, err = reply(n, why[number])
@@ -65,12 +86,6 @@ func akane(n *madon.Notification, content string) {
 		number := r.Intn(len(rate))
 		_, err = reply(n, rate[number])
 
-	} else if content == "unfollow" {
-		_, err := mc.UnfollowAccount(n.Account.ID)
-		if err != nil {
-			_, err = reply(n, "Sorry, I can't unfollow you. This problem was reported to my owner. If you want to make me unfollow right now, please mention to @bombwhale@planet.moe")
-			log.Println("Unfollowing:", err)
-		}
 	} else {
 
 		number := r.Intn(len(randomAnswers))
@@ -95,3 +110,4 @@ func akane(n *madon.Notification, content string) {
 		log.Println(err)
 	}
 }
+
