@@ -7,7 +7,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/McKael/madon"
+	"github.com/JedBeom/madon/v3"
 )
 
 var (
