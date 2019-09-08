@@ -44,9 +44,9 @@ func akane(n *madon.Notification, content string) {
 
 	// 아카네짱!
 
-	if strings.Contains(content, "민트") {
+	if strings.Contains(content, "민트") || strings.Contains(content, "민초") || strings.Contains(content, "초민") {
 
-		if strings.Contains(content, "먹자") || strings.Contains(content, "아이스크림") ||
+		if strings.Contains(content, "먹자") || strings.Contains(content, "아이스") ||
 			strings.Contains(content, "먹을") || strings.Contains(content, "왔") {
 			number := r.Intn(2)
 			answer := ""
