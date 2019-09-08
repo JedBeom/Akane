@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/McKael/madon"
+	"github.com/JedBeom/madon/v3"
 )
 
 type Config struct {
