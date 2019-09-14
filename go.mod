@@ -1,4 +1,4 @@
-module github.com/JedBeom/ttom
+module github.com/JedBeom/Akane
 
 go 1.12
 
