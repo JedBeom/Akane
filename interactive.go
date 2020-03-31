@@ -41,7 +41,7 @@ func Run() {
 			// React only mention
 			if noti.Type == "mention" {
 				content := contentExtraction(noti.Status.Content)
-				go akane(&noti, content)
+				go foolAkane(&noti, content)
 			}
 		}
 

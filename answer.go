@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
 	"strings"
@@ -37,9 +38,31 @@ var (
 	}
 )
 
+var mian = `미안하다 이거 보내려고 봇 만들었다... %s 아무말 수준 ㄹㅇ실화냐? 진짜 마스토돈최강자의 툿이다... 그뉴비같던 %s 맞나? 진짜 %s 툿 수는 전설이다...`
+
+func foolAkane(n *madon.Notification, content string) {
+	displayName := n.Account.DisplayName
+	_, err := mc.UpdateAccount(madon.UpdateAccountParams{
+		DisplayName: &displayName,
+	})
+
+	if err != nil {
+		alertToOwner(err.Error())
+		err = nil
+	}
+
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	if r.Intn(1000)%3 == 0 {
+		_, err = reply(n, fmt.Sprintf(mian, displayName, displayName, displayName))
+	} else if r.Intn(20)%3 == 0 {
+		_, err = reply(n, "그건 됐고, 민트초코나 무라")
+	} else {
+		_, err = reply(n, "아니")
+	}
+}
+
 func akane(n *madon.Notification, content string) {
 	var err error
-
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	// 아카네짱!

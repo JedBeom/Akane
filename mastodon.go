@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"strings"
 	"time"
 
@@ -57,6 +58,19 @@ func toot(content, cw string) (st *madon.Status, err error) {
 
 	st, err = mc.PostStatus(status)
 	return
+}
+
+func alertToOwner(content string) {
+	content = "@bombwhale@planet.moe " + content
+	status := madon.PostStatusParams{
+		Text:       content,
+		Visibility: "direct",
+	}
+
+	_, err := mc.PostStatus(status)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func reply(noti *madon.Notification, content string) (st *madon.Status, err error) {
