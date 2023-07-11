@@ -1,0 +1,12 @@
+[Unit]
+Description=Mastodon Akane Bot
+After=syslog.target
+
+[Service]
+ExecStart=/home/username/Akane/Akane
+SyslogIdentifier=AKANE
+WorkingDirectory=/home/username/Akane
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
