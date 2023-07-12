@@ -25,7 +25,7 @@ answers = [
 	'응', '응', '응', '응', '응', 
 	# seyana (normal)
 	'그렇구나', '고렇구나', '고거는...', '이거는...',
-	'Seyana...', 'Soyana...', 'Skeywordsena...', 'Arena...', 
+	'Seyana...', 'Soyana...', 'Sorena...', 'Arena...', 
 	':seyana: 그렇구나', ':akane: ...',
 	# bad
 	'파이다', '별로다', '증말 별로다', '등신이가', '모르겠다(진심)', '모르겠다(통찰)', '모르겠다(달관)', '모르겠다(멍청)', 
@@ -41,7 +41,7 @@ answers = ['뭐고?', '맞나?', '문데?']
 
 [[reactions]]
 # listen
-keywords = ['들어', '있잖']
+keywords = ['들어', '있잖', '키이', '테요']
 answers = ['응?', '뭐여', '와그라노', '문디']
 
 [[reactions]]
