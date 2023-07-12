@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	madon "github.com/McKael/madon/v3"
@@ -15,6 +16,27 @@ func openStream(mc *madon.Client, pEvents *chan madon.StreamEvent, pStopChan *ch
 	return mc.StreamListener("user", "", *pEvents, *pStopChan, *pDoneChan)
 }
 
+func eventHandler(mc *madon.Client, reactions []Reaction, event madon.StreamEvent) {
+	if event.Event != "notification" {
+		return
+	}
+
+	noti, ok := event.Data.(madon.Notification)
+	if !ok {
+		return
+	}
+
+	if noti.Account.Bot {
+		return
+	}
+
+	if noti.Type != "mention" {
+		return
+	}
+
+	reply(mc, noti.Status, reactions)
+}
+
 func run(mc *madon.Client, reactions []Reaction) {
 	var (
 		events   chan madon.StreamEvent
@@ -27,32 +49,15 @@ func run(mc *madon.Client, reactions []Reaction) {
 	for {
 		select {
 		case event := <-events:
-
 			if event.Error != nil {
-				close(stopChan) // causes close(doneChan)
 				continue
 			}
 
-			if event.Event != "notification" {
-				continue
-			}
-
-			noti, ok := event.Data.(madon.Notification)
-			if !ok {
-				continue
-			}
-
-			if noti.Account.Bot {
-				continue
-			}
-
-			if noti.Type != "mention" {
-				continue
-			}
-
-			go reply(mc, noti.Status, reactions)
+			go eventHandler(mc, reactions, event)
 
 		case <-doneChan: // if close(doneChan) was executed
+			log.Println("doneChan was closed")
+
 			time.Sleep(time.Millisecond * 500)
 			openStream(mc, &events, &stopChan, &doneChan)
 		}
