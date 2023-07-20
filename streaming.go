@@ -34,7 +34,10 @@ func eventHandler(mc *madon.Client, reactions []Reaction, event madon.StreamEven
 		return
 	}
 
-	reply(mc, noti.Status, reactions)
+	err := reply(mc, noti.Status, reactions)
+	if err != nil {
+		log.Println("reply():", err, "|", "noti.status:", noti.Status)
+	}
 }
 
 func run(mc *madon.Client, reactions []Reaction) {
@@ -50,16 +53,26 @@ func run(mc *madon.Client, reactions []Reaction) {
 		select {
 		case event := <-events:
 			if event.Error != nil {
+				log.Println("event.Error", event.Error)
 				continue
 			}
 
 			go eventHandler(mc, reactions, event)
-
 		case <-doneChan: // if close(doneChan) was executed
-			log.Println("doneChan was closed")
 
-			time.Sleep(time.Millisecond * 500)
-			openStream(mc, &events, &stopChan, &doneChan)
+			for {
+				time.Sleep(time.Millisecond * 500)
+
+				err := openStream(mc, &events, &stopChan, &doneChan)
+				if err != nil {
+					close(stopChan)
+					log.Println("openStream():", err)
+					continue
+				}
+				log.Println("Restart Success!")
+				break
+			}
+
 		}
 	}
 }

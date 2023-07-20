@@ -33,7 +33,7 @@ func filterContent(raw string) (content string) {
 	return
 }
 
-func reply(mc *madon.Client, status *madon.Status, reactions []Reaction) {
+func reply(mc *madon.Client, status *madon.Status, reactions []Reaction) error {
 	content := filterContent(status.Content)
 	answer := getAnswer(content, reactions)
 
@@ -53,7 +53,8 @@ func reply(mc *madon.Client, status *madon.Status, reactions []Reaction) {
 		Visibility: visibility,
 	}
 
-	mc.PostStatus(cmdPost)
+	_, err := mc.PostStatus(cmdPost)
+	return err
 }
 
 func putMention(content string, status *madon.Status) string {

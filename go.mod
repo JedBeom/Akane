@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/BurntSushi/toml v1.3.2
-	github.com/McKael/madon v2.3.0+incompatible
 	github.com/McKael/madon/v3 v3.0.0-20230403195636-7e8193606782
 	github.com/microcosm-cc/bluemonday v1.0.24
 )
