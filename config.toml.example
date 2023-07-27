@@ -3,3 +3,4 @@ BotUsername="akane"
 ClientKey="key"
 ClientSecret="secret"
 AccessToken="token"
+RestartMs=2000

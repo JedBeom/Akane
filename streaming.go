@@ -61,7 +61,7 @@ func run(mc *madon.Client, reactions []Reaction) {
 		case <-doneChan: // if close(doneChan) was executed
 
 			for {
-				time.Sleep(time.Millisecond * 500)
+				time.Sleep(time.Millisecond * time.Duration(RESTART_MS)) // RESTART_MS is a global variable
 
 				err := openStream(mc, &events, &stopChan, &doneChan)
 				if err != nil {

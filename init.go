@@ -10,16 +10,20 @@ import (
 const CONFIG_FILE = "config.toml"
 const REACTION_FILE = "reactions.toml"
 
+var RESTART_MS = 2000
+
 type Config struct {
 	Instance     string
 	AccessToken  string
 	ClientKey    string
 	ClientSecret string
+	RestartMs    int
 }
 
 func loadConfig() (Config, error) {
 	var config Config
 	_, err := toml.DecodeFile(CONFIG_FILE, &config)
+	RESTART_MS = config.RestartMs
 	return config, err
 }
 
