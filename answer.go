@@ -6,10 +6,6 @@ import (
 )
 
 func getAnswer(content string, reactions []Reaction) string {
-	if rand.Int()%4 == 0 { // 25%의 확률로 무조건 '응.'
-		return "응."
-	}
-
 	for i := range reactions {
 		if includes(content, reactions[i].Keywords) {
 			return pick(reactions[i].Answers)
